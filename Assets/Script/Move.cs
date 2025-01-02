@@ -1,36 +1,36 @@
 using UnityEngine;
 
-public class Move : MonoBehaviour
+public class CylinderMovement : MonoBehaviour
 {
-    public float vitesse = 5f; // Vitesse de déplacement
+    [SerializeField] private float moveSpeed = 5f; // Movement speed
+    [SerializeField] private float jumpForce = 5f; // Jump force
+    [SerializeField] private LayerMask groundLayer; // Layer to check for ground
+
+    private Rigidbody rb;
+    private bool isGrounded;
+
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void Update()
     {
-        // Récupération des entrées clavier (ZQSD)
-        float mouvementHorizontal = 0f;
-        float mouvementVertical = 0f;
+        // Check if the cylinder is on the ground
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, 1.1f, groundLayer);
 
-        if (Input.GetKey(KeyCode.Z)) // Avancer (Z)
-        {
-            mouvementVertical = 1f;
-        }
-        if (Input.GetKey(KeyCode.S)) // Reculer (S)
-        {
-            mouvementVertical = -1f;
-        }
-        if (Input.GetKey(KeyCode.Q)) // Aller à gauche (Q)
-        {
-            mouvementHorizontal = -1f;
-        }
-        if (Input.GetKey(KeyCode.D)) // Aller à droite (D)
-        {
-            mouvementHorizontal = 1f;
-        }
+        // Handle movement
+        float moveX = Input.GetKey(KeyCode.Q) ? -1 : Input.GetKey(KeyCode.D) ? 1 : 0;
+        float moveZ = Input.GetKey(KeyCode.Z) ? 1 : Input.GetKey(KeyCode.S) ? -1 : 0;
+        Vector3 movement = new Vector3(moveX, 0, moveZ).normalized * moveSpeed;
 
-        // Calcul du déplacement
-        Vector3 mouvement = new Vector3(mouvementHorizontal, 0f, mouvementVertical).normalized;
+        // Apply movement
+        rb.velocity = new Vector3(movement.x, rb.velocity.y, movement.z);
 
-        // Appliquer le déplacement
-        transform.Translate(mouvement * vitesse * Time.deltaTime, Space.World);
+        // Handle jump
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        {
+            rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+        }
     }
 }
