@@ -5,15 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    public static bool GameIsPaused = false;
+    public GameObject pauseMenuUI; // Référence au GameObject du menu pause
 
-    public GameObject pauseMenuUI;
+    private bool isPaused = false;
 
     void Update()
     {
+        // Ouvre/ferme le menu pause en appuyant sur Échap
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            if (GameIsPaused)
+            if (isPaused)
             {
                 Resume();
             }
@@ -24,29 +25,33 @@ public class PauseMenu : MonoBehaviour
         }
     }
 
+    // Active le menu pause
+    public void Pause()
+    {
+        pauseMenuUI.SetActive(true); // Affiche le menu pause
+        Time.timeScale = 0f;        // Met le jeu en pause
+        isPaused = true;
+    }
+
+    // Reprend le jeu
     public void Resume()
     {
-        pauseMenuUI.SetActive(false);
-        Time.timeScale = 1f;
-        GameIsPaused = false;
+        pauseMenuUI.SetActive(false); // Cache le menu pause
+        Time.timeScale = 1f;          // Reprend le temps du jeu
+        isPaused = false;
     }
-    void Pause()
+
+    // Réinitialise le niveau
+    public void ResetLevel()
     {
-        pauseMenuUI.SetActive(true);
-        Time.timeScale = 0f;
-        GameIsPaused = true;
+        Time.timeScale = 1f; // Reprend le temps avant de recharger
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Recharge la scène actuelle
     }
 
-    public void LoadMenu()
-
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("tittle");
-    }
-
+    // Quitte le jeu (optionnel)
     public void QuitGame()
     {
-        Debug.Log("Quitting game...");
-        Application.Quit();
+        Debug.Log("Quitter le jeu");
+        Application.Quit(); // Fonctionne uniquement dans une build
     }
 }
