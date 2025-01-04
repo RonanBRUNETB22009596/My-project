@@ -11,9 +11,11 @@ public class CharacterMovement : MonoBehaviour
     public Camera followCamera; // Caméra qui suit le personnage
     public Camera[] cameras; // Liste des caméras auxiliaires
 
+    public DeathMenuController deathMenuController; // Référence au script DeathMenuController
     private Rigidbody rb;
     private Animator animator;
     private bool isGrounded;
+    private bool isDead;
 
     void Start()
     {
@@ -27,6 +29,8 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
+        if (isDead) return; // Bloquer les mouvements si le personnage est mort
+
         // Déplacement avant/arrière
         float move = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
 
@@ -96,11 +100,30 @@ public class CharacterMovement : MonoBehaviour
         if (activeCamera != null) activeCamera.enabled = true;
     }
 
+    public void SwitchToCamera(Camera targetCamera)
+    {
+        ActivateCamera(targetCamera);
+    }
+
     void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+        }
+        else if (collision.gameObject.CompareTag("Spike"))
+        {
+            Debug.Log("Spike collided!");
+            Die();
+        }
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Spike"))
+        {
+            Debug.Log("Spike triggered!");
+            Die();
         }
     }
 
@@ -112,8 +135,24 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
-    public void SwitchToCamera(Camera targetCamera)
+    void Die()
     {
-        ActivateCamera(targetCamera);
+        Debug.Log("Player is dead!");
+        isDead = true;
+
+        if (deathMenuController != null)
+        {
+            deathMenuController.ShowDeathScreen();
+        }
+        else
+        {
+            Debug.LogError("DeathMenuController is not assigned in the inspector!");
+        }
+
+        if (animator != null)
+        {
+            animator.SetTrigger("Die");
+        }
     }
+
 }

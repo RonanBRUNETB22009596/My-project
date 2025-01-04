@@ -8,6 +8,7 @@ TagManager:
   - Teleporter2
   - Coin
   - Ground
+  - Spike
   layers:
   - Default
   - TransparentFX
