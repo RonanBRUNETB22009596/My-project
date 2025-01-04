@@ -24589,7 +24589,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c9701ef81c754cb4384dfa7acf3e6f18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deathScreen: {fileID: 2015435538}
+  deathScreen: {fileID: 1276658810}
 --- !u!4 &709300328
 Transform:
   m_ObjectHideFlags: 0
@@ -36264,6 +36264,10 @@ PrefabInstance:
       value: TeleporterFINALTEST
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 06cbdae8a94a1d04d82a38a8d622668a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 06cbdae8a94a1d04d82a38a8d622668a, type: 3}
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
@@ -40950,7 +40954,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1276658811
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,7 +11,7 @@ public class CharacterMovement : MonoBehaviour
     public Camera followCamera; // Caméra qui suit le personnage
     public Camera[] cameras; // Liste des caméras auxiliaires
 
-    public DeathMenuController deathMenuController; // Référence au script DeathMenuController
+    public DeathScreenController deathScreenController; // Référence au script DeathMenuController
     private Rigidbody rb;
     private Animator animator;
     private bool isGrounded;
@@ -29,7 +29,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return; // Bloquer les mouvements si le personnage est mort
+        if (isDead) return ; // Bloquer les mouvements si le personnage est mort
 
         // Déplacement avant/arrière
         float move = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
@@ -84,6 +84,7 @@ public class CharacterMovement : MonoBehaviour
                 followCamera.enabled = isOverviewActive;
             }
         }
+  
     }
 
     void ActivateCamera(Camera activeCamera)
@@ -137,16 +138,18 @@ public class CharacterMovement : MonoBehaviour
 
     void Die()
     {
-        Debug.Log("Player is dead!");
+        Debug.Log("Die() method called!");
+
         isDead = true;
 
-        if (deathMenuController != null)
+        if (deathScreenController != null)
         {
-            deathMenuController.ShowDeathScreen();
+            Debug.Log("Calling ShowDeathScreen()");
+            deathScreenController.ShowDeathScreen(); // Affiche l'écran de mort
         }
         else
         {
-            Debug.LogError("DeathMenuController is not assigned in the inspector!");
+            Debug.LogError("DeathScreenController is not assigned in the Inspector!");
         }
 
         if (animator != null)
@@ -154,5 +157,6 @@ public class CharacterMovement : MonoBehaviour
             animator.SetTrigger("Die");
         }
     }
+  
 
 }
