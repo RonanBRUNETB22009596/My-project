@@ -6,8 +6,10 @@ public class CharacterMovement : MonoBehaviour
     public float turnSpeed = 100f; // Vitesse de rotation continue
     public float jumpForce = 7f; // Force du saut
 
+    // Références aux caméras
     public Camera MainCamera; // Caméra globale
     public Camera followCamera; // Caméra qui suit le personnage
+    public Camera[] cameras; // Liste des caméras auxiliaires
 
     private Rigidbody rb;
     private Animator animator;
@@ -19,12 +21,8 @@ public class CharacterMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-        // Initialiser les caméras
-        if (MainCamera != null && followCamera != null)
-        {
-            MainCamera.enabled = true;
-            followCamera.enabled = false;
-        }
+        // Activer la caméra principale au départ
+        ActivateCamera(MainCamera);
     }
 
     void Update()
@@ -61,20 +59,18 @@ public class CharacterMovement : MonoBehaviour
             }
         }
 
-        // Saut (touche Espace)
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        // Saut (touche P)
+        if (Input.GetKeyDown(KeyCode.P) && isGrounded)
         {
-            // Ajouter une force vers le haut pour sauter
             rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
 
-            // Jouer l'animation de saut
             if (animator != null)
             {
                 animator.SetTrigger("Jump");
             }
         }
 
-        // Changer de caméra avec la touche "C"
+        // Changer entre MainCamera et followCamera avec la touche "C"
         if (Input.GetKeyDown(KeyCode.C))
         {
             if (MainCamera != null && followCamera != null)
@@ -86,9 +82,22 @@ public class CharacterMovement : MonoBehaviour
         }
     }
 
+    void ActivateCamera(Camera activeCamera)
+    {
+        // Désactiver toutes les caméras
+        foreach (Camera cam in cameras)
+        {
+            if (cam != null) cam.enabled = false;
+        }
+        if (MainCamera != null) MainCamera.enabled = false;
+        if (followCamera != null) followCamera.enabled = false;
+
+        // Activer uniquement la caméra choisie
+        if (activeCamera != null) activeCamera.enabled = true;
+    }
+
     void OnCollisionEnter(Collision collision)
     {
-        // Vérifier si le personnage est au sol
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
@@ -97,10 +106,14 @@ public class CharacterMovement : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        // Vérifier si le personnage n'est plus au sol
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
         }
+    }
+
+    public void SwitchToCamera(Camera targetCamera)
+    {
+        ActivateCamera(targetCamera);
     }
 }
