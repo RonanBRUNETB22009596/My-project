@@ -66,10 +66,6 @@
 Le jeu est encore en développement. Certaines fonctionnalités, comme le **Niveau 2**, sont en cours de création.
 
 
-## 💡 Note
-
-Le jeu est encore en développement. Certaines fonctionnalités et niveaux (comme le Niveau 2) sont en cours de création.
-
 ## 📦 Installation
 
 1. Clonez le projet :
