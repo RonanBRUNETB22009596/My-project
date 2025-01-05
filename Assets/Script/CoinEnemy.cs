@@ -7,9 +7,16 @@ public class CoinEnemy : MonoBehaviour
     public float detectionRange = 5f; // Distance à laquelle l'ennemi détecte le joueur
     public int damage = 10; // Dégâts infligés au joueur
     public float attackInterval = 1.5f; // Temps entre deux attaques
+    public int maxHealth = 50; // Santé maximale de l'ennemi
 
+    private int currentHealth;
     private float lastAttackTime; // Temps écoulé depuis la dernière attaque
     private bool isChasing = false;
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+    }
 
     void Update()
     {
@@ -64,6 +71,23 @@ public class CoinEnemy : MonoBehaviour
                 Debug.Log("Le joueur a été attaqué et a subi " + damage + " points de dégâts.");
             }
         }
+    }
+
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        Debug.Log("Santé de l'ennemi : " + currentHealth);
+
+        if (currentHealth <= 0)
+        {
+            Die();
+        }
+    }
+
+    void Die()
+    {
+        Debug.Log("L'ennemi est mort !");
+        Destroy(gameObject); // Supprime l'objet de la scène
     }
 
     void OnDrawGizmosSelected()
