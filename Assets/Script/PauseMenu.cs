@@ -54,4 +54,10 @@ public class PauseMenu : MonoBehaviour
         Debug.Log("Quitter le jeu");
         Application.Quit(); // Fonctionne uniquement dans une build
     }
+    public void GoToMainMenu()
+    {
+        // Retourner au menu principal
+        Time.timeScale = 1f; // Remet le temps à la normale
+        SceneManager.LoadScene("MainMenu");
+    }
 }

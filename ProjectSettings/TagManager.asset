@@ -11,6 +11,8 @@ TagManager:
   - Spike
   - Enemy
   - Trophy
+  - Key
+  - Chest
   layers:
   - Default
   - TransparentFX

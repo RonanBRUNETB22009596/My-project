@@ -28,4 +28,16 @@ public class KeyManager : MonoBehaviour
     {
         keyText.text = "Clef : " + keyCount; // Mettre à jour le texte du HUD
     }
+    public void UseKey()
+    {
+        if (keyCount > 0)
+        {
+            keyCount--; // Réduire le nombre de clés
+            UpdateKeyText(); // Mettre à jour l'affichage dans le HUD
+        }
+        else
+        {
+            Debug.LogWarning("Aucune clé à utiliser !");
+        }
+    }
 }

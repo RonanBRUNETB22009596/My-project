@@ -17,6 +17,10 @@ public class CharacterMovement : MonoBehaviour
     private bool isGrounded;
     private bool isDead;
 
+    // Audio 
+    public AudioSource audioSource;
+    public AudioClip deathSound;
+
     void Start()
     {
         // Récupération du Rigidbody et de l'Animator
@@ -29,7 +33,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Update()
     {
-        if (isDead) return ; // Bloquer les mouvements si le personnage est mort
+        if (isDead) return; // Bloquer les mouvements si le personnage est mort
 
         // Déplacement avant/arrière
         float move = Input.GetAxis("Vertical") * moveSpeed * Time.deltaTime;
@@ -84,7 +88,6 @@ public class CharacterMovement : MonoBehaviour
                 followCamera.enabled = isOverviewActive;
             }
         }
-  
     }
 
     void ActivateCamera(Camera activeCamera)
@@ -142,6 +145,9 @@ public class CharacterMovement : MonoBehaviour
 
         isDead = true;
 
+        // Jouer le son de mort
+        PlaySound(deathSound);
+
         if (deathScreenController != null)
         {
             Debug.Log("Calling ShowDeathScreen()");
@@ -157,6 +163,18 @@ public class CharacterMovement : MonoBehaviour
             animator.SetTrigger("Die");
         }
     }
-  
 
+    // Méthode pour jouer un son
+    void PlaySound(AudioClip clip)
+    {
+        if (audioSource != null && clip != null)
+        {
+            audioSource.clip = clip;
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource ou AudioClip non assigné !");
+        }
+    }
 }

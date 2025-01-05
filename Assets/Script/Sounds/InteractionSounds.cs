@@ -6,6 +6,8 @@ public class InteractionSounds : MonoBehaviour
     public AudioClip coinPickupSound; // Son pour ramasser une pièce
     public AudioClip teleporter1Sound; // Son pour les téléporteurs bleus
     public AudioClip teleporter2Sound; // Son pour les téléporteurs oranges
+    public AudioClip Key; // Son pour les clefs 
+    public AudioClip Chest; // Son pour le coffre
     public AudioClip trophySound; // Son pour le trophée
 
     void OnTriggerEnter(Collider other)
@@ -26,6 +28,16 @@ public class InteractionSounds : MonoBehaviour
         else if (other.CompareTag("Teleporter2"))
         {
             PlaySound(teleporter2Sound);
+            // Ajoutez ici votre logique pour le téléporteur orange
+        }
+        else if (other.CompareTag("Key"))
+        {
+            PlaySound(Key);
+            // Ajoutez ici votre logique pour le téléporteur orange
+        }
+        else if (other.CompareTag("Chest"))
+        {
+            PlaySound(Chest);
             // Ajoutez ici votre logique pour le téléporteur orange
         }
         // Vérifier si c'est un trophée

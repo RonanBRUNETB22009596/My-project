@@ -8,6 +8,8 @@ public class PlayerHealth : MonoBehaviour
     public Slider healthBar; // Référence à la barre de vie dans le HUD
     public CharacterMovement characterMovement; // Référence au script CharacterMovement
     public DeathScreenController deathScreenController; // Référence au script DeathScreenController
+    public Image heartIcon; // Référence à l'icône du cœur
+    
 
     void Start()
     {
