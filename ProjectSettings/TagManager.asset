@@ -10,6 +10,7 @@ TagManager:
   - Ground
   - Spike
   - Enemy
+  - Trophy
   layers:
   - Default
   - TransparentFX
